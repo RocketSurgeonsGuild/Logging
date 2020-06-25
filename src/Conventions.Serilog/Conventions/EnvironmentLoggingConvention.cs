@@ -1,11 +1,11 @@
 using System;
 using JetBrains.Annotations;
 using Rocket.Surgery.Conventions;
-using Rocket.Surgery.Extensions.Serilog.Conventions;
+using Rocket.Surgery.Conventions.Serilog.Conventions;
 
 [assembly: Convention(typeof(EnvironmentLoggingConvention))]
 
-namespace Rocket.Surgery.Extensions.Serilog.Conventions
+namespace Rocket.Surgery.Conventions.Serilog.Conventions
 {
     /// <summary>
     /// EnvironmentLoggingConvention.

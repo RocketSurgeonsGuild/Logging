@@ -1,10 +1,10 @@
 using JetBrains.Annotations;
 using Microsoft.Extensions.Configuration;
-using Rocket.Surgery.Conventions;
+using Microsoft.Extensions.Hosting;
 using Rocket.Surgery.Conventions.Reflection;
 using Serilog;
 
-namespace Rocket.Surgery.Extensions.Serilog
+namespace Rocket.Surgery.Conventions.Serilog
 {
     /// <summary>
     /// ISerilogConventionContext
@@ -43,6 +43,6 @@ namespace Rocket.Surgery.Extensions.Serilog
         /// Based on IHostEnvironment / IHostingEnvironment
         /// </summary>
         /// <value>The environment.</value>
-        [NotNull] IRocketEnvironment Environment { get; }
+        [NotNull] IHostEnvironment Environment { get; }
     }
 }

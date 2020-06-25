@@ -1,20 +1,19 @@
 using System;
 using JetBrains.Annotations;
 using Rocket.Surgery.Conventions;
-using Rocket.Surgery.Extensions.Serilog.Conventions;
+using Rocket.Surgery.Conventions.Serilog.Conventions;
 using Serilog;
 
 [assembly: Convention(typeof(SerilogEnrichLoggingConvention))]
 
-namespace Rocket.Surgery.Extensions.Serilog.Conventions
+namespace Rocket.Surgery.Conventions.Serilog.Conventions
 {
     /// <summary>
     /// SerilogEnrichLoggingConvention.
     /// Implements the <see cref="ISerilogConvention" />
     /// </summary>
     /// <seealso cref="ISerilogConvention" />
-    [LiveConvention]
-    public class SerilogEnrichEnvironmentLoggingConvention : ISerilogConvention
+    public class SerilogEnrichLoggingConvention : ISerilogConvention
     {
         /// <summary>
         /// Registers the specified context.
@@ -28,11 +27,8 @@ namespace Rocket.Surgery.Extensions.Serilog.Conventions
             }
 
             context.LoggerConfiguration
-               .Enrich.WithEnvironmentUserName()
-               .Enrich.WithMachineName()
-               .Enrich.WithProcessId()
-               .Enrich.WithProcessName()
-               .Enrich.WithThreadId();
+               .Enrich.FromLogContext()
+               .Enrich.WithDemystifiedStackTraces();
         }
     }
 }

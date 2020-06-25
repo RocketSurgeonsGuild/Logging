@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 
-namespace Rocket.Surgery.Extensions.Serilog.Conventions
+namespace Rocket.Surgery.Conventions.Serilog.Conventions
 {
     /// <summary>
     /// SerilogFinalizerHostedService.
@@ -14,21 +14,13 @@ namespace Rocket.Surgery.Extensions.Serilog.Conventions
     /// <seealso cref="IHostedService" />
     internal class SerilogFinalizerHostedService : IHostedService
     {
-#if NETSTANDARD2_0
-        private readonly IApplicationLifetime _lifetime;
-#else
         private readonly IHostApplicationLifetime _lifetime;
-#endif
         /// <summary>
         /// Initializes a new instance of the <see cref="SerilogFinalizerHostedService" /> class.
         /// </summary>
         /// <param name="lifetime">The lifetime.</param>
         public SerilogFinalizerHostedService(
-#if NETSTANDARD2_0
-            [NotNull] IApplicationLifetime lifetime
-#else
             [NotNull] IHostApplicationLifetime lifetime
-#endif
         )
         {
             _lifetime = lifetime ?? throw new ArgumentNullException(nameof(lifetime));

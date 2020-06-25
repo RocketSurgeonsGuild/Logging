@@ -1,31 +1,30 @@
 using System;
 using JetBrains.Annotations;
 using Rocket.Surgery.Conventions;
-using Rocket.Surgery.Extensions.Serilog.Conventions;
+using Rocket.Surgery.Conventions.Serilog.Conventions;
 using Serilog;
 using Serilog.Configuration;
 using Serilog.Events;
-using Serilog.Sinks.SystemConsole.Themes;
 
-[assembly: Convention(typeof(SerilogConsoleLoggingConvention))]
+[assembly: Convention(typeof(SerilogDebugLoggingConvention))]
 
-namespace Rocket.Surgery.Extensions.Serilog.Conventions
+namespace Rocket.Surgery.Conventions.Serilog.Conventions
 {
     /// <summary>
-    /// SerilogConsoleLoggingConvention.
+    /// SerilogDebugLoggingConvention.
     /// Implements the <see cref="ISerilogConvention" />
     /// </summary>
     /// <seealso cref="ISerilogConvention" />
     [LiveConvention]
-    public sealed class SerilogConsoleLoggingConvention : SerilogConditionallyAsyncLoggingConvention
+    public sealed class SerilogDebugLoggingConvention : SerilogConditionallyAsyncLoggingConvention
     {
         private readonly RocketSerilogOptions _options;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SerilogConsoleLoggingConvention" /> class.
+        /// Initializes a new instance of the <see cref="SerilogDebugLoggingConvention" /> class.
         /// </summary>
         /// <param name="options">The options.</param>
-        public SerilogConsoleLoggingConvention(RocketSerilogOptions? options = null)
+        public SerilogDebugLoggingConvention(RocketSerilogOptions? options = null)
             => _options = options ?? new RocketSerilogOptions();
 
         /// <inheritdoc />
@@ -36,10 +35,9 @@ namespace Rocket.Surgery.Extensions.Serilog.Conventions
                 throw new ArgumentNullException(nameof(configuration));
             }
 
-            configuration.Console(
+            configuration.Debug(
                 LogEventLevel.Verbose,
-                _options.ConsoleMessageTemplate,
-                theme: AnsiConsoleTheme.Literate
+                _options.DebugMessageTemplate
             );
         }
     }

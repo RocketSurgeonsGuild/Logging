@@ -1,7 +1,8 @@
 using System;
 using JetBrains.Annotations;
-using Rocket.Surgery.Extensions.Serilog;
-using Rocket.Surgery.Extensions.Serilog.Conventions;
+using Microsoft.Extensions.Hosting;
+using Rocket.Surgery.Conventions.Serilog;
+using Rocket.Surgery.Conventions.Serilog.Conventions;
 using Serilog;
 using Serilog.Configuration;
 
@@ -14,6 +15,26 @@ namespace Rocket.Surgery.Conventions
     [PublicAPI]
     public static class SerilogHostBuilderExtensions
     {
+        /// <summary>
+        /// Uses the serilog.
+        /// </summary>
+        /// <param name="container">The container.</param>
+        /// <param name="options">The options.</param>
+        /// <returns>IHostBuilder.</returns>
+        public static IHostBuilder UseSerilog(
+            [NotNull] this IHostBuilder container,
+            RocketSerilogOptions? options = null
+        )
+        {
+            if (container == null)
+            {
+                throw new ArgumentNullException(nameof(container));
+            }
+
+            container.GetConventions().UseSerilog(options);
+            return container;
+        }
+
         /// <summary>
         /// Uses the serilog.
         /// </summary>
