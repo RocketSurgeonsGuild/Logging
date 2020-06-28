@@ -1,7 +1,6 @@
 using JetBrains.Annotations;
-using Rocket.Surgery.Conventions;
 
-namespace Rocket.Surgery.Extensions.Serilog
+namespace Rocket.Surgery.Conventions.Serilog
 {
     /// <summary>
     /// Implements the <see cref="IConvention{TContext}" />

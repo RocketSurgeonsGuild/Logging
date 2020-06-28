@@ -1,4 +1,4 @@
-﻿namespace Rocket.Surgery.Extensions.Serilog
+﻿namespace Rocket.Surgery.Conventions.Serilog
 {
     /// <summary>
     /// Base diagnostic listener type for Rocket Surgery

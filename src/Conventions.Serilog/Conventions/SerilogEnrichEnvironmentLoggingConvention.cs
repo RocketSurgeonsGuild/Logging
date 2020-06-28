@@ -1,23 +1,21 @@
 using System;
 using JetBrains.Annotations;
 using Rocket.Surgery.Conventions;
-using Serilog.Configuration;
+using Rocket.Surgery.Conventions.Serilog.Conventions;
+using Serilog;
 
-namespace Rocket.Surgery.Extensions.Serilog.Conventions
+[assembly: Convention(typeof(SerilogEnrichLoggingConvention))]
+
+namespace Rocket.Surgery.Conventions.Serilog.Conventions
 {
     /// <summary>
-    /// SerilogConditionallyAsyncLoggingConvention.
+    /// SerilogEnrichLoggingConvention.
     /// Implements the <see cref="ISerilogConvention" />
     /// </summary>
     /// <seealso cref="ISerilogConvention" />
-    public abstract class SerilogConditionallyAsyncLoggingConvention : ISerilogConvention
+    [LiveConvention]
+    public class SerilogEnrichEnvironmentLoggingConvention : ISerilogConvention
     {
-        /// <summary>
-        /// Registers the sink synchronously or asynchronously
-        /// </summary>
-        /// <param name="configuration">The sink configuration.</param>
-        protected abstract void Register(LoggerSinkConfiguration configuration);
-
         /// <summary>
         /// Registers the specified context.
         /// </summary>
@@ -29,7 +27,12 @@ namespace Rocket.Surgery.Extensions.Serilog.Conventions
                 throw new ArgumentNullException(nameof(context));
             }
 
-            context.WriteToAsyncConditionally(Register);
+            context.LoggerConfiguration
+               .Enrich.WithEnvironmentUserName()
+               .Enrich.WithMachineName()
+               .Enrich.WithProcessId()
+               .Enrich.WithProcessName()
+               .Enrich.WithThreadId();
         }
     }
 }

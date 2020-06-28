@@ -1,6 +1,6 @@
 using JetBrains.Annotations;
 
-namespace Rocket.Surgery.Extensions.Serilog
+namespace Rocket.Surgery.Conventions.Serilog
 {
     /// <summary>
     /// Delegate SerilogConventionDelegate

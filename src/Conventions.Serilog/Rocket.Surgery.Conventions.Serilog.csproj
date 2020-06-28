@@ -3,9 +3,6 @@
     <TargetFrameworks>netstandard2.1;netstandard2.0</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Serilog.Abstractions\Rocket.Surgery.Extensions.Serilog.Abstractions.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Rocket.Surgery.Conventions" />
     <PackageReference Include="System.Diagnostics.DiagnosticSource" />
     <PackageReference Include="Ben.Demystifier" />

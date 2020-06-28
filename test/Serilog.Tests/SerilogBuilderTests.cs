@@ -2,6 +2,7 @@
 using FakeItEasy;
 using FluentAssertions;
 using Rocket.Surgery.Conventions.Reflection;
+using Rocket.Surgery.Conventions.Serilog;
 using Rocket.Surgery.Extensions.Testing;
 using Xunit;
 using Xunit.Abstractions;

@@ -2,7 +2,8 @@
 
 using System;
 using JetBrains.Annotations;
-using Rocket.Surgery.Extensions.Serilog;
+using Microsoft.Extensions.Hosting;
+using Rocket.Surgery.Conventions.Serilog;
 
 namespace Rocket.Surgery.Conventions
 {
@@ -12,6 +13,31 @@ namespace Rocket.Surgery.Conventions
     [PublicAPI]
     public static class SerilogAbstractionsHostBuilderExtensions
     {
+        /// <summary>
+        /// Configure the serilog delegate to the convention scanner
+        /// </summary>
+        /// <param name="container">The container.</param>
+        /// <param name="delegate">The delegate.</param>
+        /// <returns>IHostBuilder.</returns>
+        public static IHostBuilder ConfigureSerilog(
+            [NotNull] this IHostBuilder container,
+            [NotNull] SerilogConventionDelegate @delegate
+        )
+        {
+            if (container == null)
+            {
+                throw new ArgumentNullException(nameof(container));
+            }
+
+            if (@delegate == null)
+            {
+                throw new ArgumentNullException(nameof(@delegate));
+            }
+
+            container.GetConventions().Scanner.AppendDelegate(@delegate);
+            return container;
+        }
+
         /// <summary>
         /// Configure the serilog delegate to the convention scanner
         /// </summary>

@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Threading;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DiagnosticAdapter;
-using Rocket.Surgery.Extensions.Serilog;
+using Rocket.Surgery.Conventions.Serilog;
 using Serilog.Context;
 
 namespace Rocket.Surgery.AspNetCore.Serilog
