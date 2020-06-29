@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
-using Rocket.Surgery.Conventions;
+using Microsoft.Extensions.Hosting;
 using Rocket.Surgery.Conventions.Reflection;
-using Rocket.Surgery.Conventions.Scanners;
 using Serilog;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 
-namespace Rocket.Surgery.Extensions.Serilog
+namespace Rocket.Surgery.Conventions.Serilog
 {
     /// <summary>
     /// SerilogBuilder.
@@ -50,7 +49,7 @@ namespace Rocket.Surgery.Extensions.Serilog
             IConventionScanner scanner,
             IAssemblyProvider assemblyProvider,
             IAssemblyCandidateFinder assemblyCandidateFinder,
-            IRocketEnvironment environment,
+            IHostEnvironment environment,
             IConfiguration configuration,
             LoggerConfiguration loggerConfiguration,
             ILogger diagnosticSource,
@@ -108,6 +107,6 @@ namespace Rocket.Surgery.Extensions.Serilog
         /// Based on IHostEnvironment / IHostingEnvironment
         /// </summary>
         /// <value>The environment.</value>
-        public IRocketEnvironment Environment { get; }
+        public IHostEnvironment Environment { get; }
     }
 }

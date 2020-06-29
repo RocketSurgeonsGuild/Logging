@@ -2,7 +2,7 @@ using System;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Configuration;
 
-namespace Rocket.Surgery.Extensions.Serilog
+namespace Rocket.Surgery.Conventions.Serilog
 {
     internal static class ConfigurationAsyncHelper
     {

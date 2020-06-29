@@ -4,14 +4,14 @@ using JetBrains.Annotations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Rocket.Surgery.Conventions;
-using Rocket.Surgery.Extensions.Configuration;
-using Rocket.Surgery.Extensions.Serilog.Conventions;
+using Rocket.Surgery.Conventions.Configuration;
+using Rocket.Surgery.Conventions.Serilog.Conventions;
 using Serilog;
 using Serilog.Extensions.Logging;
 
 [assembly: Convention(typeof(SerilogReadFromConfigurationConvention))]
 
-namespace Rocket.Surgery.Extensions.Serilog.Conventions
+namespace Rocket.Surgery.Conventions.Serilog.Conventions
 {
     /// <summary>
     /// SerilogReadFromConfigurationConvention.
@@ -19,10 +19,10 @@ namespace Rocket.Surgery.Extensions.Serilog.Conventions
     /// </summary>
     /// <seealso cref="ISerilogConvention" />
     [LiveConvention]
-    public class SerilogReadFromConfigurationConvention : ISerilogConvention, IConfigurationConvention
+    public class SerilogReadFromConfigurationConvention : ISerilogConvention, IConfigConvention
     {
         /// <inheritdoc />
-        public void Register([NotNull] IConfigurationConventionContext context)
+        public void Register([NotNull] IConfigConventionContext context)
         {
             if (context == null)
             {

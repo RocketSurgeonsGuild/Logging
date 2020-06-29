@@ -4,9 +4,10 @@ using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Rocket.Surgery.Conventions;
+using Rocket.Surgery.Conventions.Reflection;
 using Rocket.Surgery.Conventions.Scanners;
-using Rocket.Surgery.Extensions.Serilog;
-using Rocket.Surgery.Extensions.Serilog.Conventions;
+using Rocket.Surgery.Conventions.Serilog;
+using Rocket.Surgery.Conventions.Serilog.Conventions;
 using Rocket.Surgery.Hosting.Serilog.Conventions;
 using Serilog;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
@@ -51,7 +52,7 @@ namespace Rocket.Surgery.Hosting.Serilog.Conventions
                 throw new ArgumentNullException(nameof(context));
             }
 
-            context.Scanner.ExceptConvention(typeof(SerilogExtensionsConvention));
+            context.Get<IConventionScanner>().ExceptConvention(typeof(SerilogExtensionsConvention));
             context.Builder.ConfigureServices((context, services) =>
             {
                 foreach (var item in services
@@ -67,9 +68,9 @@ namespace Rocket.Surgery.Hosting.Serilog.Conventions
                 {
                     new SerilogBuilder(
                         _scanner,
-                        context.AssemblyProvider,
-                        context.AssemblyCandidateFinder,
-                        new RocketEnvironment(ctx.HostingEnvironment),
+                        context.Get<IAssemblyProvider>(),
+                        context.Get<IAssemblyCandidateFinder>(),
+                        ctx.HostingEnvironment,
                         ctx.Configuration,
                         loggerConfiguration,
                         _diagnosticSource,
