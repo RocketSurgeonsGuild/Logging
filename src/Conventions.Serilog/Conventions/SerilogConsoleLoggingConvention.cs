@@ -1,5 +1,6 @@
 using System;
 using JetBrains.Annotations;
+using Microsoft.Extensions.Configuration;
 using Rocket.Surgery.Conventions;
 using Rocket.Surgery.Conventions.Serilog.Conventions;
 using Serilog;
@@ -17,7 +18,7 @@ namespace Rocket.Surgery.Conventions.Serilog.Conventions
     /// </summary>
     /// <seealso cref="ISerilogConvention" />
     [LiveConvention]
-    public sealed class SerilogConsoleLoggingConvention : SerilogConditionallyAsyncLoggingConvention
+    public sealed class SerilogConsoleLoggingConvention : ISerilogConvention
     {
         private readonly RocketSerilogOptions _options;
 
@@ -25,21 +26,16 @@ namespace Rocket.Surgery.Conventions.Serilog.Conventions
         /// Initializes a new instance of the <see cref="SerilogConsoleLoggingConvention" /> class.
         /// </summary>
         /// <param name="options">The options.</param>
-        public SerilogConsoleLoggingConvention(RocketSerilogOptions? options = null)
-            => _options = options ?? new RocketSerilogOptions();
+        public SerilogConsoleLoggingConvention(RocketSerilogOptions? options = null) => _options = options ?? new RocketSerilogOptions();
 
-        /// <inheritdoc />
-        protected override void Register([NotNull] LoggerSinkConfiguration configuration)
+        public void Register(IConventionContext context, IConfiguration configuration, LoggerConfiguration loggerConfiguration)
         {
-            if (configuration == null)
-            {
-                throw new ArgumentNullException(nameof(configuration));
-            }
-
-            configuration.Console(
-                LogEventLevel.Verbose,
-                _options.ConsoleMessageTemplate,
-                theme: AnsiConsoleTheme.Literate
+            loggerConfiguration.WriteTo.Async(
+                c => c.Console(
+                    LogEventLevel.Verbose,
+                    _options.ConsoleMessageTemplate,
+                    theme: AnsiConsoleTheme.Literate
+                )
             );
         }
     }

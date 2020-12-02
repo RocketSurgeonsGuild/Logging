@@ -2,8 +2,10 @@
 
 using System;
 using JetBrains.Annotations;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Rocket.Surgery.Conventions.Serilog;
+using Serilog;
 
 namespace Rocket.Surgery.Conventions
 {
@@ -16,17 +18,17 @@ namespace Rocket.Surgery.Conventions
         /// <summary>
         /// Configure the serilog delegate to the convention scanner
         /// </summary>
-        /// <param name="container">The container.</param>
+        /// <param name="builder">The builder.</param>
         /// <param name="delegate">The delegate.</param>
         /// <returns>IHostBuilder.</returns>
-        public static IHostBuilder ConfigureSerilog(
-            [NotNull] this IHostBuilder container,
-            [NotNull] SerilogConventionDelegate @delegate
+        public static ConventionContextBuilder ConfigureSerilog(
+            [NotNull] this ConventionContextBuilder builder,
+            [NotNull] SerilogConvention @delegate
         )
         {
-            if (container == null)
+            if (builder == null)
             {
-                throw new ArgumentNullException(nameof(container));
+                throw new ArgumentNullException(nameof(builder));
             }
 
             if (@delegate == null)
@@ -34,24 +36,23 @@ namespace Rocket.Surgery.Conventions
                 throw new ArgumentNullException(nameof(@delegate));
             }
 
-            container.GetConventions().Scanner.AppendDelegate(@delegate);
-            return container;
+            return builder.AppendDelegate(@delegate);
         }
 
         /// <summary>
         /// Configure the serilog delegate to the convention scanner
         /// </summary>
-        /// <param name="container">The container.</param>
+        /// <param name="builder">The builder.</param>
         /// <param name="delegate">The delegate.</param>
-        /// <returns>IConventionHostBuilder.</returns>
-        public static IConventionHostBuilder ConfigureSerilog(
-            [NotNull] this IConventionHostBuilder container,
-            [NotNull] SerilogConventionDelegate @delegate
+        /// <returns>IHostBuilder.</returns>
+        public static ConventionContextBuilder ConfigureSerilog(
+            [NotNull] this ConventionContextBuilder builder,
+            [NotNull] Action<IConfiguration, LoggerConfiguration> @delegate
         )
         {
-            if (container == null)
+            if (builder == null)
             {
-                throw new ArgumentNullException(nameof(container));
+                throw new ArgumentNullException(nameof(builder));
             }
 
             if (@delegate == null)
@@ -59,8 +60,31 @@ namespace Rocket.Surgery.Conventions
                 throw new ArgumentNullException(nameof(@delegate));
             }
 
-            container.Scanner.AppendDelegate(@delegate);
-            return container;
+            return builder.AppendDelegate(new SerilogConvention((_, configuration, loggerConfiguration) => @delegate(configuration, loggerConfiguration)));
+        }
+
+        /// <summary>
+        /// Configure the serilog delegate to the convention scanner
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="delegate">The delegate.</param>
+        /// <returns>IHostBuilder.</returns>
+        public static ConventionContextBuilder ConfigureSerilog(
+            [NotNull] this ConventionContextBuilder builder,
+            [NotNull] Action<LoggerConfiguration> @delegate
+        )
+        {
+            if (builder == null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+
+            if (@delegate == null)
+            {
+                throw new ArgumentNullException(nameof(@delegate));
+            }
+
+            return builder.AppendDelegate(new SerilogConvention((_, _, loggerConfiguration) => @delegate(loggerConfiguration)));
         }
     }
 }

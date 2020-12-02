@@ -1,5 +1,6 @@
 using System;
 using JetBrains.Annotations;
+using Microsoft.Extensions.Configuration;
 using Rocket.Surgery.Conventions;
 using Rocket.Surgery.Conventions.Serilog.Conventions;
 using Serilog;
@@ -20,14 +21,16 @@ namespace Rocket.Surgery.Conventions.Serilog.Conventions
         /// Registers the specified context.
         /// </summary>
         /// <param name="context">The context.</param>
-        public void Register([NotNull] ISerilogConventionContext context)
+        /// <param name="configuration"></param>
+        /// <param name="loggerConfiguration"></param>
+        public void Register(IConventionContext context, IConfiguration configuration, LoggerConfiguration loggerConfiguration)
         {
             if (context == null)
             {
                 throw new ArgumentNullException(nameof(context));
             }
 
-            context.LoggerConfiguration
+            loggerConfiguration
                .Enrich.WithEnvironmentUserName()
                .Enrich.WithMachineName()
                .Enrich.WithProcessId()
