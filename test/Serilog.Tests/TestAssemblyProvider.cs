@@ -9,7 +9,7 @@ namespace Rocket.Surgery.Extensions.Serilog.Tests
     {
         public IEnumerable<Assembly> GetAssemblies() => new[]
         {
-            typeof(SerilogBuilder).GetTypeInfo().Assembly,
+            typeof(SerilogConvention).GetTypeInfo().Assembly,
             typeof(TestAssemblyProvider).GetTypeInfo().Assembly
         };
     }
